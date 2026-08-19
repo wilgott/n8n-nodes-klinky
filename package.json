@@ -1,6 +1,6 @@
 {
   "name": "n8n-nodes-klinky",
-  "version": "0.1.3",
+  "version": "0.1.4",
   "description": "n8n community node for Klinky smart link automation — create, update, and manage split links from workflows.",
   "keywords": [
     "n8n-community-node-package",
@@ -13,6 +13,9 @@
   ],
   "license": "MIT",
   "homepage": "https://klinky.io/integrations/n8n",
+  "publishConfig": {
+    "access": "public"
+  },
   "author": {
     "name": "Robin Wilgott",
     "email": "support@klinky.io"
