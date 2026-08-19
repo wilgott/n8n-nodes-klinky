@@ -15,11 +15,21 @@ gh repo create wilgott/n8n-nodes-klinky --public --source=. --remote=origin --pu
 
 Expected repo: https://github.com/wilgott/n8n-nodes-klinky
 
-## 2. Create an npm account + access token
+## 2. Configure npm publishing
 
-1. Sign in or create an account at https://www.npmjs.com/
-2. Create an automation token with **Publish** access
-3. Add it to the GitHub repo as secret `NPM_TOKEN`
+Choose one:
+
+### Option A — OIDC trusted publisher (recommended)
+
+1. Log in to [npmjs.com](https://www.npmjs.com/)
+2. Create the package (or open package settings after first publish)
+3. Under **Publish access → Trusted Publishers**, add **GitHub Actions**:
+   - Repository owner: `wilgott`
+   - Repository name: `n8n-nodes-klinky`
+   - Workflow name: `publish.yml`
+4. No `NPM_TOKEN` secret needed
+
+### Option B — npm automation token
 
 ```bash
 gh secret set NPM_TOKEN --repo wilgott/n8n-nodes-klinky
@@ -27,19 +37,26 @@ gh secret set NPM_TOKEN --repo wilgott/n8n-nodes-klinky
 
 ## 3. Publish the first npm release
 
-From the repo root:
+Use the n8n release command (do not run `npm publish` directly):
 
 ```bash
-git tag v0.1.0
-git push origin v0.1.0
+cd integrations/n8n-nodes-klinky
+npm install
+npm run release
 ```
 
-The GitHub Action in `.github/workflows/publish.yml` will:
+This lints, builds, bumps the version, tags, pushes, and triggers the GitHub Action with provenance.
 
-- build the package
-- publish `n8n-nodes-klinky` to npm with provenance
+If you already pushed tag `v0.1.0` and the workflow failed, fix secrets then either:
 
-After publish, verify:
+```bash
+git tag -d v0.1.0 && git push origin :refs/tags/v0.1.0
+npm run release
+```
+
+Or bump to `0.1.1` and push a new tag.
+
+Verify:
 
 ```bash
 npm view n8n-nodes-klinky
