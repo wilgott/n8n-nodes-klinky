@@ -1,5 +1,20 @@
 name: Publish
 
+# Publishes n8n-nodes-klinky to npm with provenance on version tags.
+# Required for n8n Creator Portal verification (from May 2026).
+#
+# ONE-TIME SETUP (pick one):
+#
+# Option A — OIDC Trusted Publisher (recommended, no secrets):
+#   1. npmjs.com → Account Settings → Trusted Publishers → Add publisher
+#   2. Provider: GitHub Actions
+#   3. Repository owner: wilgott
+#   4. Repository name: n8n-nodes-klinky
+#   5. Workflow filename: publish.yml
+#
+# Option B — Automation token:
+#   gh secret set NPM_TOKEN --repo wilgott/n8n-nodes-klinky
+
 on:
   push:
     tags:
@@ -20,14 +35,18 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: 'lts/*'
+          registry-url: 'https://registry.npmjs.org'
           cache: 'npm'
 
       - name: Install dependencies
         run: npm ci
 
-      - name: Release
+      - name: Lint and build
         run: |
-          [ -n "$NPM_TOKEN" ] && npm config set //registry.npmjs.org/:_authToken "$NPM_TOKEN"
-          npm run release
+          npm run lint
+          npm run build
+
+      - name: Publish to npm with provenance
+        run: npm publish --provenance --access public
         env:
-          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
