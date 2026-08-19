@@ -1,0 +1,52 @@
+{
+  "name": "Klinky Click Export",
+  "nodes": [
+    {
+      "parameters": {},
+      "id": "manual-trigger",
+      "name": "When clicking 'Test workflow'",
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [240, 300]
+    },
+    {
+      "parameters": {
+        "operation": "getClicks",
+        "linkId": "REPLACE_WITH_LINK_ID",
+        "page": 1,
+        "perPage": 50
+      },
+      "id": "klinky-get-clicks",
+      "name": "Get Klinky Clicks",
+      "type": "n8n-nodes-klinky.klinky",
+      "typeVersion": 1,
+      "position": [520, 300],
+      "credentials": {
+        "klinkyApi": {
+          "id": "REPLACE_WITH_CREDENTIAL_ID",
+          "name": "Klinky API"
+        }
+      }
+    }
+  ],
+  "connections": {
+    "When clicking 'Test workflow'": {
+      "main": [
+        [
+          {
+            "node": "Get Klinky Clicks",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "meta": {
+    "templateCredsSetupCompleted": false
+  }
+}

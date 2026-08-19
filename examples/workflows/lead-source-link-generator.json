@@ -1,0 +1,54 @@
+{
+  "name": "Klinky Lead Source Link Generator",
+  "nodes": [
+    {
+      "parameters": {},
+      "id": "manual-trigger",
+      "name": "When clicking 'Test workflow'",
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [240, 300]
+    },
+    {
+      "parameters": {
+        "operation": "create",
+        "name": "Lead magnet download",
+        "routingType": "single",
+        "singleDestinationUrl": "https://example.com/download",
+        "singleVariantLabel": "main",
+        "slug": "lead-magnet"
+      },
+      "id": "klinky-create",
+      "name": "Create Klinky Link",
+      "type": "n8n-nodes-klinky.klinky",
+      "typeVersion": 1,
+      "position": [520, 300],
+      "credentials": {
+        "klinkyApi": {
+          "id": "REPLACE_WITH_CREDENTIAL_ID",
+          "name": "Klinky API"
+        }
+      }
+    }
+  ],
+  "connections": {
+    "When clicking 'Test workflow'": {
+      "main": [
+        [
+          {
+            "node": "Create Klinky Link",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "meta": {
+    "templateCredsSetupCompleted": false
+  }
+}

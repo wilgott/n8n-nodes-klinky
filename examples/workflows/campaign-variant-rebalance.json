@@ -1,0 +1,64 @@
+{
+  "name": "Klinky Campaign Variant Rebalance",
+  "nodes": [
+    {
+      "parameters": {},
+      "id": "manual-trigger",
+      "name": "When clicking 'Test workflow'",
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [240, 300]
+    },
+    {
+      "parameters": {
+        "operation": "updateVariants",
+        "linkId": "REPLACE_WITH_LINK_ID",
+        "updateVariantsList": {
+          "variant": [
+            {
+              "label": "control",
+              "destinationUrl": "https://example.com/control",
+              "weight": 70
+            },
+            {
+              "label": "variant_b",
+              "destinationUrl": "https://example.com/new-offer",
+              "weight": 30
+            }
+          ]
+        }
+      },
+      "id": "klinky-update-variants",
+      "name": "Update Klinky Variants",
+      "type": "n8n-nodes-klinky.klinky",
+      "typeVersion": 1,
+      "position": [520, 300],
+      "credentials": {
+        "klinkyApi": {
+          "id": "REPLACE_WITH_CREDENTIAL_ID",
+          "name": "Klinky API"
+        }
+      }
+    }
+  ],
+  "connections": {
+    "When clicking 'Test workflow'": {
+      "main": [
+        [
+          {
+            "node": "Update Klinky Variants",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "meta": {
+    "templateCredsSetupCompleted": false
+  }
+}
